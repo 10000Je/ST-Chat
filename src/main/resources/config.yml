@@ -17,7 +17,7 @@ ItemShowCoolTime: 60
 ItemShowCoolTimeMsg: '&6놀이터 &f｜ &6[LEFTTIME]&a초 후에 사용할 수 있습니다.'
 
 # 디스코드 웹훅 관리, 사용가능한 변수 [CURRENTTIME] [CHANNEL] [MESSAGE]
-DiscordWebhookUrl: 'https://discord.com/api/webhooks/886793664146329641/uxLzC3GYvQRNzkRfkTSeFGEJrqZ8VFldVfDfKBvGuecTXInJxnKHlpcQdKDTsvwj3d4d'
+DiscordWebhookUrl: 'Input Your Webhook URL'
 DiscordFormat: '([CURRENTTIME]) \n[CHANNEL] ｜ [MESSAGE]'
 
 # 전체채팅 커스터마이징, 사용가능한 변수 [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
