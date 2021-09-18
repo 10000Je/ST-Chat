@@ -1,0 +1,21 @@
+name: ST-Chat
+version: '1.2'
+author: STuuDENT
+main: com.stuudent.Chat.CTCore
+description: Custom Formatted Chat Plugin Created by STuuDENT
+softdepend:
+  - 'Essentials'
+  - 'CMI'
+depend:
+  - 'Vault'
+
+commands:
+  전체채팅:
+    aliases: [전챗]
+    description: Set your chatting channel to GLOBAL
+  지역채팅:
+    aliases: [지챗]
+    description: Set your chatting channel to REGION
+  한글채팅:
+    aliases: [한챗]
+    description: Enable/Disable Your Korean Chat Status

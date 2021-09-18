@@ -1,0 +1,40 @@
+# 자유로운 색깔채팅 사용가능
+AdminPermission: 'chat.admin'
+
+# 아이템 표시 텍스트
+ItemShowText: '[i]'
+
+# 아이템 표시 포맷, 사용가능한 변수 [ITEMNAME] [AMOUNT]
+ItemShowChat: '&e(&6 [ITEMNAME]&c x[AMOUNT] &e)&f'
+
+# 플레이어 손 표시 포맷, 사용가능한 변수 [PLAYER]
+HandShowChat: '&e( &f[PLAYER] &6님의 손! &e)'
+HandShowLore:
+  - '&f[PLAYER] &6님의 소중한 손입니다!'
+
+# 쿨타임은 (초)기준, 사용가능한 변수 [LEFTTIME]
+ItemShowCoolTime: 60
+ItemShowCoolTimeMsg: '&6놀이터 &f｜ &6[LEFTTIME]&a초 후에 사용할 수 있습니다.'
+
+# 디스코드 웹훅 관리, 사용가능한 변수 [CURRENTTIME] [CHANNEL] [MESSAGE]
+DiscordWebhookUrl: 'https://discord.com/api/webhooks/886793664146329641/uxLzC3GYvQRNzkRfkTSeFGEJrqZ8VFldVfDfKBvGuecTXInJxnKHlpcQdKDTsvwj3d4d'
+DiscordFormat: '([CURRENTTIME]) \n[CHANNEL] ｜ [MESSAGE]'
+
+# 전체채팅 커스터마이징, 사용가능한 변수 [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
+GlobalChatFormat: ' [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
+GlobalEnable: '&6놀이터 &f｜ &a전체채팅이 활성화 되었습니다.'
+
+# 지역채팅 커스터마이징, 사용가능한 변수 [PLAYERNUM] [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
+RegionEnable: '&6놀이터 &f｜ &a지역채팅이 활성화 되었습니다.'
+RegionChatFormat: ' &7[지역&f([PLAYERNUM]&6명&f)&7] &f: [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
+RegionChatDistance: 300
+
+# 한글채팅 커스터마이징.
+KoreanEnable: '&6놀이터 &f｜ &a한글채팅이 활성화 되었습니다.'
+KoreanDisable: '&6놀이터 &f｜ &c한글채팅이 비활성화 되었습니다.'
+
+# 색깔채팅 & 색깔닉네임, 아래는 사용가능 색깔
+# BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
+DefaultChatColor: 'WHITE'
+DefaultNickColor: 'WHITE'
+PlayerNumberColor: 'GOLD'
