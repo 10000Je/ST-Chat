@@ -1,11 +1,12 @@
-package com.stuudent.Chat.handlers.data;
+package com.stuudent.Chat.data;
 
 import com.Zrips.CMI.Containers.CMIUser;
 import com.earth2me.essentials.User;
 import com.github.kimcore.inko.Inko;
-import com.stuudent.Chat.CTCore;
 import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.enums.Channel;
+import com.stuudent.Chat.ChatCore;
+import com.stuudent.Chat.enums.ChannelType;
+import com.stuudent.Chat.enums.MegaPhoneType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -24,30 +25,34 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CTData {
+public class AllData {
 
-    public static YamlConfiguration cf;
-    public static YamlConfiguration tempCf;
-    public static File configFile;
-    public static File tempFile;
+    public static YamlConfiguration playerData;
+    public static YamlConfiguration tempPlayerData;
+    public static YamlConfiguration megaPhoneData;
+    public static File playerDataFile;
+    public static File tempPlayerDataFile;
+    public static File megaPhoneDataFile;
 
     static {
-        configFile = new File("plugins/" + CTCore.instance.getName() + "/CTData.yml");
-        tempFile = new File("plugins/" + CTCore.instance.getName() + "/tempData.yml");
-        cf = YamlConfiguration.loadConfiguration(configFile);
-        tempCf = YamlConfiguration.loadConfiguration(tempFile);
+        playerDataFile = new File("plugins/" + ChatCore.instance.getName() + "/playerData.yml");
+        tempPlayerDataFile = new File("plugins/" + ChatCore.instance.getName() + "/tempPlayerData.yml");
+        megaPhoneDataFile = new File("plugins/" + ChatCore.instance.getName() + "/megaPhoneData.yml");
+        playerData = YamlConfiguration.loadConfiguration(playerDataFile);
+        tempPlayerData = YamlConfiguration.loadConfiguration(tempPlayerDataFile);
+        megaPhoneData = YamlConfiguration.loadConfiguration(megaPhoneDataFile);
     }
 
     /* CTPlayer 전용 메소드 */
 
     public boolean isIgnored(Player chatPlayer, Player targetPlayer) {
-        if(CTCore.ess != null) {
-            User targetUser = CTCore.ess.getUser(targetPlayer);
-            User chatUser = CTCore.ess.getUser(chatPlayer);
+        if(ChatCore.ess != null) {
+            User targetUser = ChatCore.ess.getUser(targetPlayer);
+            User chatUser = ChatCore.ess.getUser(chatPlayer);
             return chatUser.isIgnoredPlayer(targetUser);
         }
-        else if(CTCore.cmi != null) {
-            CMIUser cmiUser = CTCore.cmi.getPlayerManager().getUser(chatPlayer);
+        else if(ChatCore.cmi != null) {
+            CMIUser cmiUser = ChatCore.cmi.getPlayerManager().getUser(chatPlayer);
             return cmiUser.isIgnoring(targetPlayer.getUniqueId());
         }
         else {
@@ -57,27 +62,28 @@ public class CTData {
 
     public void save() {
         try {
-            cf.save(configFile);
+            playerData.save(playerDataFile);
+            megaPhoneData.save(megaPhoneDataFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setChannel(Player chatPlayer, Channel targetChannel) {
-        cf.set(chatPlayer.getUniqueId().toString() + ".CHANNEL", targetChannel.name());
+    public void setChannel(Player chatPlayer, ChannelType targetChannelType) {
+        playerData.set(chatPlayer.getUniqueId().toString() + ".CHANNEL", targetChannelType.name());
     }
 
-    public Channel getChannel(Player chatPlayer) {
-        String textChannel = cf.getString(chatPlayer.getUniqueId().toString() + ".CHANNEL", "GLOBAL");
-        return Channel.valueOf(textChannel);
+    public ChannelType getChannel(Player chatPlayer) {
+        String textChannel = playerData.getString(chatPlayer.getUniqueId().toString() + ".CHANNEL", "GLOBAL");
+        return ChannelType.valueOf(textChannel);
     }
 
     public void setTime(Player chatPlayer) {
-        tempCf.set(chatPlayer.getUniqueId().toString() + ".ITEM", Instant.now().getEpochSecond());
+        tempPlayerData.set(chatPlayer.getUniqueId().toString() + ".ITEM", Instant.now().getEpochSecond());
     }
 
     public long getTime(Player chatPlayer) {
-        return tempCf.getLong(chatPlayer.getUniqueId().toString() + ".ITEM", 0);
+        return tempPlayerData.getLong(chatPlayer.getUniqueId().toString() + ".ITEM", 0);
     }
 
     public long getLeftTime(Player chatPlayer) {
@@ -86,33 +92,33 @@ public class CTData {
     }
 
     public int getCoolTime() {
-        return CTCore.cf.getInt("ItemShowCoolTime", 60);
+        return ChatCore.cf.getInt("ItemShowCoolTime", 60);
     }
 
     public void setChatColor(Player chatPlayer, ChatColor targetColor) {
-        cf.set(chatPlayer.getUniqueId().toString() + ".CHATCOLOR", targetColor.name());
+        playerData.set(chatPlayer.getUniqueId().toString() + ".CHATCOLOR", targetColor.name());
     }
 
     public ChatColor getChatColor(Player chatPlayer) {
-        String textColor = cf.getString(chatPlayer.getUniqueId().toString() + ".CHATCOLOR", CTCore.cf.getString("DefaultChatColor", "WHITE"));
+        String textColor = playerData.getString(chatPlayer.getUniqueId().toString() + ".CHATCOLOR", ChatCore.cf.getString("DefaultChatColor", "WHITE"));
         return ChatColor.valueOf(textColor);
     }
 
     public void setNickColor(Player chatPlayer, ChatColor targetColor) {
-        cf.set(chatPlayer.getUniqueId().toString() + ".NICKCOLOR", targetColor.name());
+        playerData.set(chatPlayer.getUniqueId().toString() + ".NICKCOLOR", targetColor.name());
     }
 
     public ChatColor getNickColor(Player chatPlayer) {
-        String textColor = cf.getString(chatPlayer.getUniqueId().toString() + ".NICKCOLOR", CTCore.cf.getString("DefaultNickColor", "WHITE"));
+        String textColor = playerData.getString(chatPlayer.getUniqueId().toString() + ".NICKCOLOR", ChatCore.cf.getString("DefaultNickColor", "WHITE"));
         return ChatColor.valueOf(textColor);
     }
 
     public TextComponent getHandText(Player handPlayer) {
         String yourHand = ChatColor.translateAlternateColorCodes('&',
-                CTCore.cf.getString("HandShowChat").replace("[PLAYER]", handPlayer.getDisplayName()));
+                ChatCore.cf.getString("HandShowChat").replace("[PLAYER]", handPlayer.getDisplayName()));
         TextComponent textHand = new TextComponent(yourHand);
         List<BaseComponent> HoverText = new ArrayList<>();
-        for (String HT : CTCore.cf.getStringList("HandShowLore"))
+        for (String HT : ChatCore.cf.getStringList("HandShowLore"))
             HoverText.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', HT.replace("[PLAYER]", handPlayer.getDisplayName()))));
         BaseComponent[] HoverTexts = HoverText.toArray(new BaseComponent[HoverText.size()]);
         textHand.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, HoverTexts));
@@ -120,19 +126,113 @@ public class CTData {
     }
 
     public boolean isKorean(Player chatPlayer) {
-        return cf.getBoolean(chatPlayer.getUniqueId().toString() + ".KOREANCHAT", false);
+        return playerData.getBoolean(chatPlayer.getUniqueId().toString() + ".KOREANCHAT", false);
     }
 
     public void setKorean(Player chatPlayer, boolean state) {
-        cf.set(chatPlayer.getUniqueId().toString() + ".KOREANCHAT", state);
+        playerData.set(chatPlayer.getUniqueId().toString() + ".KOREANCHAT", state);
+    }
+
+    public void setMegaPhoneCool(MegaPhoneType megaPhoneType, Player chatPlayer) {
+        if(megaPhoneType.equals(MegaPhoneType.NORMAL)) {
+            tempPlayerData.set(chatPlayer.getUniqueId().toString() + ".MEGAPHONE_NORMAL", Instant.now().getEpochSecond());
+        } else if(megaPhoneType.equals(MegaPhoneType.ADVANCED)) {
+            tempPlayerData.set(chatPlayer.getUniqueId().toString() + ".MEGAPHONE_ADVANCED", Instant.now().getEpochSecond());
+        }
+    }
+
+    public long getMegaPhoneCoolTime(MegaPhoneType megaPhoneType, Player chatPlayer) {
+        if(megaPhoneType.equals(MegaPhoneType.NORMAL)) {
+            return ChatCore.cf.getInt("MegaPhoneNormalCoolTime", 0) -
+                    (Instant.now().getEpochSecond() - tempPlayerData.getLong(chatPlayer.getUniqueId().toString() + ".MEGAPHONE_NORMAL", 0));
+        } else if(megaPhoneType.equals(MegaPhoneType.ADVANCED)) {
+            return ChatCore.cf.getInt("MegaPhoneAdvancedCoolTime", 0) -
+                    (Instant.now().getEpochSecond() - tempPlayerData.getLong(chatPlayer.getUniqueId().toString() + ".MEGAPHONE_ADVANCED", 0));
+        } else {
+            return 0;
+        }
+    }
+
+    public boolean isMegaPhoneCool(MegaPhoneType megaPhoneType, Player chatPlayer) {
+        return getMegaPhoneCoolTime(megaPhoneType, chatPlayer) > 0;
+    }
+
+    public TextComponent getMegaPhoneMessage(MegaPhoneType megaPhoneType, Player player, String message) {
+        if(megaPhoneType.equals(MegaPhoneType.NORMAL)) {
+            TextComponent sendTcMessage = new TextComponent();
+            String[] sendTexts = ChatCore.cf.getString("MegaPhoneNormalSend").replace("[PLAYER]", "[SPLIT][PLAYER][SPLIT]").
+                    replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").split("\\[SPLIT\\]");
+            for(String sendText : sendTexts) {
+                if(sendText.equals("[PLAYER]")) {
+                    sendTcMessage.addExtra(new TextComponent(player.getDisplayName()));
+                }
+                else if(sendText.equals("[MESSAGE]")) {
+                    TextComponent tcMessage = new TextComponent();
+                    String[] messages = message.replace(ChatCore.cf.getString("ItemShowText"),
+                            "[SPLIT]" + ChatCore.cf.getString("ItemShowText") + "[SPLIT]").split("\\[SPLIT\\]");
+                    for(String text : messages) {
+                        if(text.equals(ChatCore.cf.getString("ItemShowText"))) {
+                            TextComponent addExtra = player.getInventory().getItemInMainHand().getType().equals(Material.AIR) ?
+                                    ChatAPI.getPlayer(player).getHand() : ChatAPI.getItem(player.getInventory().getItemInMainHand()).getItem();
+                            tcMessage.addExtra(addExtra);
+                        }
+                        else {
+                            TextComponent addExtra = new TextComponent(text);
+                            addExtra.setColor(ChatColor.valueOf(ChatCore.cf.getString("MegaPhoneNormalColor")));
+                            tcMessage.addExtra(addExtra);
+                        }
+                    }
+                    sendTcMessage.addExtra(tcMessage);
+                }
+                else {
+                    sendTcMessage.addExtra(ChatColor.translateAlternateColorCodes('&', sendText));
+                }
+            }
+            return sendTcMessage;
+        }
+        else if(megaPhoneType.equals(MegaPhoneType.ADVANCED)) {
+            TextComponent sendTcMessage = new TextComponent();
+            String[] sendTexts = ChatCore.cf.getString("MegaPhoneAdvancedSend").replace("[PLAYER]", "[SPLIT][PLAYER][SPLIT]").
+                    replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").split("\\[SPLIT\\]");
+            for(String sendText : sendTexts) {
+                if(sendText.equals("[PLAYER]")) {
+                    sendTcMessage.addExtra(new TextComponent(player.getDisplayName()));
+                }
+                else if(sendText.equals("[MESSAGE]")) {
+                    TextComponent tcMessage = new TextComponent();
+                    String[] messages = message.toString().replace(ChatCore.cf.getString("ItemShowText"),
+                            "[SPLIT]" + ChatCore.cf.getString("ItemShowText") + "[SPLIT]").split("\\[SPLIT\\]");
+                    for(String text : messages) {
+                        if(text.equals(ChatCore.cf.getString("ItemShowText"))) {
+                            TextComponent addExtra = player.getInventory().getItemInMainHand().getType().equals(Material.AIR) ?
+                                    ChatAPI.getPlayer(player).getHand() : ChatAPI.getItem(player.getInventory().getItemInMainHand()).getItem();
+                            tcMessage.addExtra(addExtra);
+                        }
+                        else {
+                            TextComponent addExtra = new TextComponent(text);
+                            addExtra.setColor(ChatColor.valueOf(ChatCore.cf.getString("MegaPhoneAdvancedColor")));
+                            tcMessage.addExtra(addExtra);
+                        }
+                    }
+                    sendTcMessage.addExtra(tcMessage);
+                }
+                else {
+                    sendTcMessage.addExtra(ChatColor.translateAlternateColorCodes('&', sendText));
+                }
+            }
+            return sendTcMessage;
+        }
+        else {
+            return null;
+        }
     }
 
     /* CTGlobal 전용메소드 */
 
-    public List<Player> getGlobalPlayers(CTPlayer chatPlayer) {
+    public List<Player> getGlobalPlayers(ChatPlayerData chatPlayer) {
         List<Player> globalPlayers = new ArrayList<>();
         for(Player p : Bukkit.getOnlinePlayers()) {
-            CTPlayer cp = ChatAPI.getPlayer(p);
+            ChatPlayerData cp = ChatAPI.getPlayer(p);
             if(cp.isIgnored(chatPlayer.getPlayer()))
                 continue;
             globalPlayers.add(p);
@@ -140,8 +240,8 @@ public class CTData {
         return globalPlayers;
     }
 
-    public TextComponent getGlobalFormat(CTPlayer chatPlayer, String message, boolean toKorean) {
-        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("GlobalChatFormat")).
+    public TextComponent getGlobalFormat(ChatPlayerData chatPlayer, String message, boolean toKorean) {
+        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("GlobalChatFormat")).
                 replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").
                 replace("[PLAYERGROUP]", "[SPLIT][PLAYERGROUP][SPLIT]").
                 replace("[PLAYERNAME]", "[SPLIT][PLAYERNAME][SPLIT]").
@@ -154,7 +254,7 @@ public class CTData {
                         Inko inko = new Inko();
                         message = inko.en2ko(message, true);
                     }
-                    if(chatPlayer.getPlayer().hasPermission(CTCore.cf.getString("AdminPermission"))) {
+                    if(chatPlayer.getPlayer().hasPermission(ChatCore.cf.getString("AdminPermission"))) {
                         textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', message));
                     } else {
                         TextComponent textMessage = new TextComponent(message);
@@ -163,7 +263,7 @@ public class CTData {
                     }
                     break;
                 case "[PLAYERGROUP]":
-                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', CTCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
+                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', ChatCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
                     break;
                 case "[PLAYERNAME]":
                     TextComponent nickName = new TextComponent(chatPlayer.getPlayer().getDisplayName());
@@ -178,8 +278,8 @@ public class CTData {
         return textFormat;
     }
 
-    public TextComponent getGlobalFormat(CTPlayer chatPlayer, String message, boolean toKorean, ItemStack showItem) {
-        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("GlobalChatFormat")).
+    public TextComponent getGlobalFormat(ChatPlayerData chatPlayer, String message, boolean toKorean, ItemStack showItem) {
+        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("GlobalChatFormat")).
                 replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").
                 replace("[PLAYERGROUP]", "[SPLIT][PLAYERGROUP][SPLIT]").
                 replace("[PLAYERNAME]", "[SPLIT][PLAYERNAME][SPLIT]").
@@ -188,7 +288,7 @@ public class CTData {
         for(String spLitF : spLitFormat) {
             switch(spLitF) {
                 case "[MESSAGE]":
-                    String itemShowText = CTCore.cf.getString("ItemShowText", "[i]");
+                    String itemShowText = ChatCore.cf.getString("ItemShowText", "[i]");
                     String[] spLitMessage = message.replace(itemShowText, "[SPLIT]" + itemShowText + "[SPLIT]").split("\\[SPLIT\\]");
                     TextComponent textMessage = new TextComponent();
                     for(String spLitM : spLitMessage) {
@@ -203,7 +303,7 @@ public class CTData {
                                 Inko inko = new Inko();
                                 spLitM = inko.en2ko(spLitM, true);
                             }
-                            if(chatPlayer.getPlayer().hasPermission(CTCore.cf.getString("AdminPermission"))) {
+                            if(chatPlayer.getPlayer().hasPermission(ChatCore.cf.getString("AdminPermission"))) {
                                 textMessage.addExtra(ChatColor.translateAlternateColorCodes('&', spLitM));
                             } else {
                                 TextComponent chat = new TextComponent(spLitM);
@@ -215,7 +315,7 @@ public class CTData {
                     textFormat.addExtra(textMessage);
                     break;
                 case "[PLAYERGROUP]":
-                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', CTCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
+                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', ChatCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
                     break;
                 case "[PLAYERNAME]":
                     TextComponent nickName = new TextComponent(chatPlayer.getPlayer().getDisplayName());
@@ -232,11 +332,11 @@ public class CTData {
 
     /* CTRegion 전용메소드 */
 
-    public List<Player> getRegionPlayers(CTPlayer chatPlayer) {
+    public List<Player> getRegionPlayers(ChatPlayerData chatPlayer) {
         List<Player> regionPlayers = new ArrayList<>();
         for(Player p : Bukkit.getOnlinePlayers()) {
             if(isInRegion(chatPlayer, p)) {
-                CTPlayer cp = ChatAPI.getPlayer(p);
+                ChatPlayerData cp = ChatAPI.getPlayer(p);
                 if(cp.isIgnored(chatPlayer.getPlayer()))
                     continue;
                 regionPlayers.add(p);
@@ -245,20 +345,20 @@ public class CTData {
         return regionPlayers;
     }
 
-    public int getRegionNumbers(CTPlayer chatPlayer) {
+    public int getRegionNumbers(ChatPlayerData chatPlayer) {
         return getRegionPlayers(chatPlayer).size();
     }
 
-    public boolean isInRegion(CTPlayer chatPlayer, Player targetPlayer) {
-        return (getDistance(chatPlayer, targetPlayer) <= CTCore.cf.getDouble("RegionChatDistance", 300));
+    public boolean isInRegion(ChatPlayerData chatPlayer, Player targetPlayer) {
+        return (getDistance(chatPlayer, targetPlayer) <= ChatCore.cf.getDouble("RegionChatDistance", 300));
     }
 
-    public double getDistance(CTPlayer chatPlayer, Player targetPlayer) {
+    public double getDistance(ChatPlayerData chatPlayer, Player targetPlayer) {
         return chatPlayer.getPlayer().getLocation().distance(targetPlayer.getLocation());
     }
 
-    public TextComponent getRegionFormat(CTPlayer chatPlayer, String message, boolean toKorean) {
-        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("RegionChatFormat")).
+    public TextComponent getRegionFormat(ChatPlayerData chatPlayer, String message, boolean toKorean) {
+        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("RegionChatFormat")).
                 replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").
                 replace("[PLAYERGROUP]", "[SPLIT][PLAYERGROUP][SPLIT]").
                 replace("[PLAYERNAME]", "[SPLIT][PLAYERNAME][SPLIT]").
@@ -272,7 +372,7 @@ public class CTData {
                         Inko inko = new Inko();
                         message = inko.en2ko(message, true);
                     }
-                    if(chatPlayer.getPlayer().hasPermission(CTCore.cf.getString("AdminPermission"))) {
+                    if(chatPlayer.getPlayer().hasPermission(ChatCore.cf.getString("AdminPermission"))) {
                         textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', message));
                     } else {
                         TextComponent textMessage = new TextComponent(message);
@@ -281,7 +381,7 @@ public class CTData {
                     }
                     break;
                 case "[PLAYERGROUP]":
-                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', CTCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
+                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', ChatCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
                     break;
                 case "[PLAYERNAME]":
                     TextComponent nickName = new TextComponent(chatPlayer.getPlayer().getDisplayName());
@@ -290,7 +390,7 @@ public class CTData {
                     break;
                 case "[PLAYERNUM]":
                     TextComponent pNum = new TextComponent(String.valueOf(getRegionNumbers(chatPlayer)));
-                    pNum.setColor(ChatColor.valueOf(CTCore.cf.getString("PlayerNumberColor", "WHITE")));
+                    pNum.setColor(ChatColor.valueOf(ChatCore.cf.getString("PlayerNumberColor", "WHITE")));
                     textFormat.addExtra(pNum);
                     break;
                 default:
@@ -301,8 +401,8 @@ public class CTData {
         return textFormat;
     }
 
-    public TextComponent getRegionFormat(CTPlayer chatPlayer, String message, boolean toKorean, ItemStack showItem) {
-        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("RegionChatFormat")).
+    public TextComponent getRegionFormat(ChatPlayerData chatPlayer, String message, boolean toKorean, ItemStack showItem) {
+        String[] spLitFormat = ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("RegionChatFormat")).
                 replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").
                 replace("[PLAYERGROUP]", "[SPLIT][PLAYERGROUP][SPLIT]").
                 replace("[PLAYERNAME]", "[SPLIT][PLAYERNAME][SPLIT]").
@@ -312,7 +412,7 @@ public class CTData {
         for(String splitF : spLitFormat) {
             switch(splitF) {
                 case "[MESSAGE]":
-                    String itemShowText = CTCore.cf.getString("ItemShowText", "[i]");
+                    String itemShowText = ChatCore.cf.getString("ItemShowText", "[i]");
                     String[] spLitMessage = message.replace(itemShowText, "[SPLIT]" + itemShowText + "[SPLIT]").split("\\[SPLIT\\]");
                     TextComponent textMessage = new TextComponent();
                     for(String spLitM : spLitMessage) {
@@ -327,7 +427,7 @@ public class CTData {
                                 Inko inko = new Inko();
                                 spLitM = inko.en2ko(spLitM, true);
                             }
-                            if(chatPlayer.getPlayer().hasPermission(CTCore.cf.getString("AdminPermission"))) {
+                            if(chatPlayer.getPlayer().hasPermission(ChatCore.cf.getString("AdminPermission"))) {
                                 textMessage.addExtra(ChatColor.translateAlternateColorCodes('&', spLitM));
                             } else {
                                 TextComponent chat = new TextComponent(spLitM);
@@ -339,7 +439,7 @@ public class CTData {
                     textFormat.addExtra(textMessage);
                     break;
                 case "[PLAYERGROUP]":
-                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', CTCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
+                    textFormat.addExtra(ChatColor.translateAlternateColorCodes('&', ChatCore.getChat().getPlayerPrefix(chatPlayer.getPlayer())));
                     break;
                 case "[PLAYERNAME]":
                     TextComponent nickName = new TextComponent(chatPlayer.getPlayer().getDisplayName());
@@ -348,7 +448,7 @@ public class CTData {
                     break;
                 case "[PLAYERNUM]":
                     TextComponent pNum = new TextComponent(String.valueOf(getRegionNumbers(chatPlayer)));
-                    pNum.setColor(ChatColor.valueOf(CTCore.cf.getString("PlayerNumberColor", "WHITE")));
+                    pNum.setColor(ChatColor.valueOf(ChatCore.cf.getString("PlayerNumberColor", "WHITE")));
                     textFormat.addExtra(pNum);
                     break;
                 default:
@@ -382,12 +482,33 @@ public class CTData {
     };
 
     public String getItemFormat(ItemStack targetItem) {
-        return ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("ItemShowChat")
+        return ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("ItemShowChat")
                 .replace("[ITEMNAME]", getItemName(targetItem)).replace("[AMOUNT]", String.valueOf(getItemAmount(targetItem))));
     }
 
     public int getItemAmount(ItemStack targetItem) {
         return targetItem.getAmount();
+    }
+
+    /* 확성기 데이터 */
+    public void setMegaPhonePrice(MegaPhoneType megaPhoneType, double megaPhonePrice) {
+        megaPhoneData.set(megaPhoneType.name() + ".PRICE", megaPhonePrice);
+    }
+
+    public double getMegaPhonePrice(MegaPhoneType megaPhoneType) {
+        return megaPhoneData.getDouble(megaPhoneType.name() + ".PRICE", 0);
+    }
+
+    public void setMegaPhoneEnable() {
+        megaPhoneData.set("AVAILABLE", true);
+    }
+
+    public void setMegaPhoneDisable() {
+        megaPhoneData.set("AVAILABLE", false);
+    }
+
+    public boolean isMegaPhoneEnabled() {
+        return megaPhoneData.getBoolean("AVAILABLE", false);
     }
 
 }

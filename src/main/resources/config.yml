@@ -1,40 +1,86 @@
 # 자유로운 색깔채팅 사용가능
-AdminPermission: 'chat.admin'
+AdminPermission: 'st.chatcolor.admin'
 
 # 아이템 표시 텍스트
 ItemShowText: '[i]'
 
-# 아이템 표시 포맷, 사용가능한 변수 [ITEMNAME] [AMOUNT]
+# 아이템 표시 포맷.
+# 사용가능한 변수 [ITEMNAME] [AMOUNT]
 ItemShowChat: '&e(&6 [ITEMNAME]&c x[AMOUNT] &e)&f'
 
-# 플레이어 손 표시 포맷, 사용가능한 변수 [PLAYER]
+# 플레이어 손 표시 포맷.
+# 사용가능한 변수 [PLAYER]
 HandShowChat: '&e( &f[PLAYER] &6님의 손! &e)'
 HandShowLore:
   - '&f[PLAYER] &6님의 소중한 손입니다!'
 
-# 쿨타임은 (초)기준, 사용가능한 변수 [LEFTTIME]
+# 쿨타임은 (초)기준
 ItemShowCoolTime: 60
-ItemShowCoolTimeMsg: '&6놀이터 &f｜ &6[LEFTTIME]&a초 후에 사용할 수 있습니다.'
+# 사용가능한 변수 [LEFTTIME]
+ItemShowCoolTimeMsg: '&c[&aG&d] &f｜ &6[LEFTTIME]&a초 후에 사용할 수 있습니다.'
 
-# 디스코드 웹훅 관리, 사용가능한 변수 [CURRENTTIME] [CHANNEL] [MESSAGE]
+# 디스코드 웹훅 관리.
 DiscordWebhookUrl: 'Input Your Webhook URL'
+# 사용가능한 변수 [CURRENTTIME] [CHANNEL] [MESSAGE] \n
 DiscordFormat: '([CURRENTTIME]) \n[CHANNEL] ｜ [MESSAGE]'
 
-# 전체채팅 커스터마이징, 사용가능한 변수 [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
+# 전체채팅 커스터마이징.
+GlobalEnable: '&c[&aG&d] &f｜ &a전체채팅이 활성화 되었습니다.'
+# 사용가능한 변수 [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
 GlobalChatFormat: ' [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
-GlobalEnable: '&6놀이터 &f｜ &a전체채팅이 활성화 되었습니다.'
 
-# 지역채팅 커스터마이징, 사용가능한 변수 [PLAYERNUM] [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
-RegionEnable: '&6놀이터 &f｜ &a지역채팅이 활성화 되었습니다.'
+# 지역채팅 커스터마이징.
+RegionEnable: '&c[&aG&d] &f｜ &a지역채팅이 활성화 되었습니다.'
+# 사용가능한 변수 [PLAYERNUM] [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
 RegionChatFormat: ' &7[지역&f([PLAYERNUM]&6명&f)&7] &f: [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
+PlayerNumberColor: 'GOLD'
 RegionChatDistance: 300
 
 # 한글채팅 커스터마이징.
-KoreanEnable: '&6놀이터 &f｜ &a한글채팅이 활성화 되었습니다.'
-KoreanDisable: '&6놀이터 &f｜ &c한글채팅이 비활성화 되었습니다.'
+KoreanEnable: '&c[&aG&d] &f｜ &a한글채팅이 활성화 되었습니다.'
+KoreanDisable: '&c[&aG&d] &f｜ &c한글채팅이 비활성화 되었습니다.'
+
+# 채팅청소 커스터마이징.
+CCTimeFormat: 'yyyy년 MM월 dd일 HH시 mm분 ss초'
+# 사용가능한 변수 [PLAYER] [TIME]
+CCMessage:
+  - '&c[&aG&d] &f｜ &a[PLAYER] &f님이 채팅 청소를 하셨습니다.'
+  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6[TIME]'
+PCCMessage:
+  - '&c[&aG&d] &f｜ &a개인채팅청소를 완료 하였습니다.'
+  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6[TIME]'
+
+# 확성기설정 커스터마이징.
+MegaPhoneSetHelpMessage:
+  - '&c[&aG&d] &f｜ /확성기설정 일반가격 [가격] &7- &f일반확성기 가격을 설정합니다.'
+  - '&c[&aG&d] &f｜ /확성기설정 고급가격 [가격] &7- &f고급확성기 가격을 설정합니다.'
+  - '&c[&aG&d] &f｜ /확성기설정 금지/허용 - 확성기 사용을 &c금지&f/&a허용&f 합니다.'
+MegaPhoneUnknownCommand: '&c[&aG&d] &f｜ 해당 명령어는 존재하지 않습니다. /확성기설정'
+MegaPhoneSetEnabled: '&c[&aG&d] &f｜ 이제부터 확성기 사용이 &a가능&f합니다! /확성기'
+MegaPhoneSetDisabled: '&c[&aG&d] &f｜ 이제부터 확성기 사용이 &c금지&f됩니다!'
+MegaPhoneDisabledMessage: '&c[&aG&d] &f｜ 현재 확성기 사용이 &c금지&f 상태입니다. 관리자에게 문의해주세요!'
+MegaPhoneSetWritePrice: '&c[&aG&d] &f｜ 설정할 가격을 입력하세요.'
+MegaPhoneSetNotPrice: '&c[&aG&d] &f｜ 가격 칸에는 0이상의 숫자만 입력할 수 있습니다.'
+# 사용가능한 변수 [TYPE] [PRICE]
+MegaPhoneSetNormalPrice: '&c[&aG&d] &f｜ 일반확성기의 가격을 [PRICE]원 으로 설정하였습니다.'
+MegaPhoneSetAdvancedPrice: '&c[&aG&d] &f｜ 고급확성기의 가격을 [PRICE]원 으로 설정하였습니다.'
+
+# 확성기 커스터마이징.
+# 사용가능한 변수 [PRICE] [COOLTIME]
+MegaPhoneNormalHelpMessage: '&c[&aG&d] &f｜ /일반확성기 [내용] &7- &f비용 : &a[PRICE]&f원 재사용시간 - [COOLTIME]초'
+MegaPhoneAdvancedHelpMessage: '&c[&aG&d] &f｜ /고급확성기 [내용] &7- &f비용 : &a[PRICE]&f원 재사용시간 - [COOLTIME]초'
+MegaPhoneNormalCoolMessage: '&c[&aG&d] &f｜ &6[COOLTIME]&f초 후에 다시 &a/일반확성기 &f명령어를 사용할 수 있습니다.'
+MegaPhoneAdvancedCoolMessage: '&c[&aG&d] &f｜ &6[COOLTIME]&f초 후에 다시 &c/고급확성기 &f명령어를 사용할 수 있습니다.'
+MegaPhoneLackMoney: '&c[&aG&d] &f｜ 명령어를 사용하기 위한 돈이 부족합니다.'
+MegaPhoneNormalSend: '&a일반확성기 &e[PLAYER] &7>> [MESSAGE]'
+MegaPhoneAdvancedSend: '&c고급확성기 &e[PLAYER] &7>> [MESSAGE]'
+MegaPhoneNormalColor: WHITE
+MegaPhoneAdvancedColor: WHITE
+MegaPhoneNormalCoolTime: 180
+MegaPhoneAdvancedCoolTime: 300
 
 # 색깔채팅 & 색깔닉네임, 아래는 사용가능 색깔
-# BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
+# BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE,
+# GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
 DefaultChatColor: 'WHITE'
 DefaultNickColor: 'WHITE'
-PlayerNumberColor: 'GOLD'

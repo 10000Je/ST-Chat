@@ -1,20 +1,17 @@
-package com.stuudent.Chat.handlers.event;
+package com.stuudent.Chat.events;
 
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.enums.Channel;
+import com.stuudent.Chat.enums.ChannelType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.annotation.Documented;
-
 public class ChatEvent extends Event implements Cancellable {
 
     public static HandlerList handlers;
     public Player chatPlayer;
-    public Channel channel;
+    public ChannelType channelType;
     public ItemStack showItem;
     public String message;
     public boolean cancelled;
@@ -23,17 +20,17 @@ public class ChatEvent extends Event implements Cancellable {
         handlers = new HandlerList();
     }
 
-    public ChatEvent(Player chatPlayer, String message, Channel channel) {
+    public ChatEvent(Player chatPlayer, String message, ChannelType channelType) {
         this.chatPlayer = chatPlayer;
         this.message = message;
-        this.channel = channel;
+        this.channelType = channelType;
         this.showItem = null;
     }
 
-    public ChatEvent(Player chatPlayer, String message, ItemStack showItem, Channel channel) {
+    public ChatEvent(Player chatPlayer, String message, ItemStack showItem, ChannelType channelType) {
         this.chatPlayer = chatPlayer;
         this.message = message;
-        this.channel = channel;
+        this.channelType = channelType;
         this.showItem = showItem;
     }
 
@@ -41,8 +38,8 @@ public class ChatEvent extends Event implements Cancellable {
         return this.message;
     }
 
-    public Channel getChannel() {
-        return this.channel;
+    public ChannelType getChannel() {
+        return this.channelType;
     }
 
     /**

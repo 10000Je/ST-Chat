@@ -1,17 +1,17 @@
-package com.stuudent.Chat.handlers.data;
+package com.stuudent.Chat.data;
 
 import com.stuudent.Chat.ChatAPI;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 
-public class CTItem {
+public class ChatItemData {
 
     public ItemStack targetItem;
-    public CTData ctData;
+    public AllData allData;
 
-    public CTItem(ItemStack targetItem) {
+    public ChatItemData(ItemStack targetItem) {
         this.targetItem = targetItem;
-        this.ctData = ChatAPI.getData();
+        this.allData = ChatAPI.getData();
     }
 
     public ItemStack getItemStack() {
@@ -19,19 +19,19 @@ public class CTItem {
     }
 
     public TextComponent getItem() {
-        return this.ctData.getItemText(this.targetItem);
+        return this.allData.getItemText(this.targetItem);
     }
 
     public String getName() {
-        return this.ctData.getItemName(this.targetItem);
+        return this.allData.getItemName(this.targetItem);
     }
 
     public String getFormat() {
-        return this.ctData.getItemFormat(this.targetItem);
+        return this.allData.getItemFormat(this.targetItem);
     }
 
     public int getAmount() {
-        return this.ctData.getItemAmount(this.targetItem);
+        return this.allData.getItemAmount(this.targetItem);
     }
 
 }

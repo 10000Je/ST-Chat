@@ -1,8 +1,8 @@
 name: ST-Chat
 version: '1.2'
 author: STuuDENT
-main: com.stuudent.Chat.CTCore
-description: Custom Formatted Chat Plugin Created by STuuDENT
+main: com.stuudent.Chat.ChatCore
+description: Custom Chat Management Plugin Created by STuuDENT
 softdepend:
   - 'Essentials'
   - 'CMI'
@@ -19,3 +19,20 @@ commands:
   한글채팅:
     aliases: [한챗]
     description: Enable/Disable Your Korean Chat Status
+  청소:
+    aliases: [cc]
+    permission: st.chatclean.admin
+    description: Cleans all player's chat (exclude the console)
+  개인채팅청소:
+    aliases: [pcc]
+    description: Cleans the sender's chat (exclude the console)
+  확성기설정:
+    aliases: [mpset]
+    permission: st.megaphone.admin
+    description: Sets Megaphone price/allow options
+  일반확성기:
+    aliases: [nmp]
+    description: Broadcast Normal Megaphone Message to Server Players
+  고급확성기:
+    aliases: [amp]
+    description: Broadcast Advanced Megaphone Message to Server Players

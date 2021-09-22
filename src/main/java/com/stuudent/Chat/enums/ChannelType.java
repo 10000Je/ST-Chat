@@ -1,5 +1,5 @@
 package com.stuudent.Chat.enums;
 
-public enum Channel {
+public enum ChannelType {
     GLOBAL, REGION
 }

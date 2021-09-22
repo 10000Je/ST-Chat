@@ -1,9 +1,9 @@
 package com.stuudent.Chat.commands;
 
-import com.stuudent.Chat.CTCore;
 import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.enums.Channel;
-import com.stuudent.Chat.handlers.data.CTPlayer;
+import com.stuudent.Chat.ChatCore;
+import com.stuudent.Chat.data.ChatPlayerData;
+import com.stuudent.Chat.enums.ChannelType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class RegionCmd implements TabExecutor {
+public class RegionChatCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
@@ -21,9 +21,9 @@ public class RegionCmd implements TabExecutor {
         if(!(sender instanceof Player))
             return false;
         Player player = (Player) sender;
-        CTPlayer ctPlayer = ChatAPI.getPlayer(player);
-        ctPlayer.setChannel(Channel.REGION);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', CTCore.cf.getString("RegionEnable")));
+        ChatPlayerData chatPlayerData = ChatAPI.getPlayer(player);
+        chatPlayerData.setChannel(ChannelType.REGION);
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("RegionEnable")));
         return false;
     }
 
