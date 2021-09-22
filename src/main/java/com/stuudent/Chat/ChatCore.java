@@ -41,6 +41,7 @@ public final class ChatCore extends JavaPlugin {
         cf = getConfig();
         registerListeners();
         setCommandExecutors();
+        setCommandTabCompleter();
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §a플러그인이 활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
     }
 
@@ -84,20 +85,23 @@ public final class ChatCore extends JavaPlugin {
 
     public void setCommandExecutors() {
         getCommand("전체채팅").setExecutor(new GlobalChatCommand());
-        getCommand("전체채팅").setTabCompleter(new GlobalChatCommand());
         getCommand("지역채팅").setExecutor(new RegionChatCommand());
-        getCommand("지역채팅").setTabCompleter(new RegionChatCommand());
         getCommand("한글채팅").setExecutor(new KoreanChatCommand());
-        getCommand("한글채팅").setTabCompleter(new KoreanChatCommand());
         getCommand("청소").setExecutor(new ChatCleanCommand());
-        getCommand("청소").setTabCompleter(new ChatCleanCommand());
         getCommand("개인채팅청소").setExecutor(new ChatCleanCommand());
-        getCommand("개인채팅청소").setTabCompleter(new ChatCleanCommand());
         getCommand("확성기설정").setExecutor(new MegaPhoneCommand());
-        getCommand("확성기설정").setTabCompleter(new MegaPhoneCommand());
         getCommand("일반확성기").setExecutor(new MegaPhoneCommand());
-        getCommand("일반확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("고급확성기").setExecutor(new MegaPhoneCommand());
+    }
+
+    public void setCommandTabCompleter() {
+        getCommand("전체채팅").setTabCompleter(new GlobalChatCommand());
+        getCommand("지역채팅").setTabCompleter(new RegionChatCommand());
+        getCommand("한글채팅").setTabCompleter(new KoreanChatCommand());
+        getCommand("청소").setTabCompleter(new ChatCleanCommand());
+        getCommand("개인채팅청소").setTabCompleter(new ChatCleanCommand());
+        getCommand("확성기설정").setTabCompleter(new MegaPhoneCommand());
+        getCommand("일반확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("고급확성기").setTabCompleter(new MegaPhoneCommand());
     }
 }
