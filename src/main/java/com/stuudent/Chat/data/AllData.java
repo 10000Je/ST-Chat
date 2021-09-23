@@ -1,12 +1,12 @@
 package com.stuudent.Chat.data;
 
-import com.Zrips.CMI.Containers.CMIUser;
-import com.earth2me.essentials.User;
 import com.github.kimcore.inko.Inko;
 import com.stuudent.Chat.ChatAPI;
 import com.stuudent.Chat.ChatCore;
 import com.stuudent.Chat.enums.ChannelType;
 import com.stuudent.Chat.enums.MegaPhoneType;
+import com.stuudent.Chat.utils.CMIUtil;
+import com.stuudent.Chat.utils.EssentialsUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -46,14 +46,11 @@ public class AllData {
     /* CTPlayer 전용 메소드 */
 
     public boolean isIgnored(Player chatPlayer, Player targetPlayer) {
-        if(ChatCore.ess != null) {
-            User targetUser = ChatCore.ess.getUser(targetPlayer);
-            User chatUser = ChatCore.ess.getUser(chatPlayer);
-            return chatUser.isIgnoredPlayer(targetUser);
+        if(ChatCore.cmi) {
+            return CMIUtil.isIgnored(chatPlayer, targetPlayer);
         }
-        else if(ChatCore.cmi != null) {
-            CMIUser cmiUser = ChatCore.cmi.getPlayerManager().getUser(chatPlayer);
-            return cmiUser.isIgnoring(targetPlayer.getUniqueId());
+        else if(ChatCore.ess) {
+            return EssentialsUtil.isIgnored(chatPlayer, targetPlayer);
         }
         else {
             return false;
@@ -350,7 +347,11 @@ public class AllData {
     }
 
     public boolean isInRegion(ChatPlayerData chatPlayer, Player targetPlayer) {
-        return (getDistance(chatPlayer, targetPlayer) <= ChatCore.cf.getDouble("RegionChatDistance", 300));
+        if(chatPlayer.getPlayer().getWorld().equals(targetPlayer.getWorld())) {
+            return (getDistance(chatPlayer, targetPlayer) <= ChatCore.cf.getDouble("RegionChatDistance", 300));
+        } else {
+            return false;
+        }
     }
 
     public double getDistance(ChatPlayerData chatPlayer, Player targetPlayer) {
@@ -391,6 +392,11 @@ public class AllData {
                 case "[PLAYERNUM]":
                     TextComponent pNum = new TextComponent(String.valueOf(getRegionNumbers(chatPlayer)));
                     pNum.setColor(ChatColor.valueOf(ChatCore.cf.getString("PlayerNumberColor", "WHITE")));
+                    List<TextComponent> regionPlayers = new ArrayList<>();
+                    for(Player regionPlayer : getRegionPlayers(chatPlayer))
+                        regionPlayers.add(new TextComponent(regionPlayer.getDisplayName()));
+                    BaseComponent[] regionBase = regionPlayers.toArray(new BaseComponent[regionPlayers.size()]);
+                    pNum.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, regionBase));
                     textFormat.addExtra(pNum);
                     break;
                 default:
@@ -509,6 +515,44 @@ public class AllData {
 
     public boolean isMegaPhoneEnabled() {
         return megaPhoneData.getBoolean("AVAILABLE", false);
+    }
+
+    /* 공지사항 관련 메소드 */
+
+    public List<TextComponent> getBroadcastMessage(Player chatPlayer, String message) {
+        List<TextComponent> textComponents = new ArrayList<>();
+        for(String broadcastMessage : ChatCore.cf.getStringList("BroadcastMessage")) {
+            TextComponent eachTextComponent = new TextComponent();
+            String[] sendTexts = broadcastMessage.replace("[PLAYER]", "[SPLIT][PLAYER][SPLIT]").
+                    replace("[MESSAGE]", "[SPLIT][MESSAGE][SPLIT]").split("\\[SPLIT\\]");
+            for(String sendText : sendTexts) {
+                if(sendText.equals("[PLAYER]")) {
+                    eachTextComponent.addExtra(chatPlayer.getDisplayName());
+                }
+                else if(sendText.equals("[MESSAGE]")) {
+                    TextComponent itemIncluded = new TextComponent();
+                    String[] itemMessages = message.replace(ChatCore.cf.getString("ItemShowText"),
+                            "[SPLIT]" + ChatCore.cf.getString("ItemShowText") + "[SPLIT]").split("\\[SPLIT\\]");
+                    for(String itemMessage : itemMessages) {
+                        if(itemMessage.equals(ChatCore.cf.getString("ItemShowText"))) {
+                            TextComponent addExtra = chatPlayer.getInventory().getItemInMainHand().getType().equals(Material.AIR) ?
+                                    ChatAPI.getPlayer(chatPlayer).getHand() : ChatAPI.getItem(chatPlayer.getInventory().getItemInMainHand()).getItem();
+                            itemIncluded.addExtra(addExtra);
+                        }
+                        else {
+                            TextComponent addExtra = new TextComponent(ChatColor.translateAlternateColorCodes('&', itemMessage));
+                            itemIncluded.addExtra(addExtra);
+                        }
+                    }
+                    eachTextComponent.addExtra(itemIncluded);
+                }
+                else {
+                    eachTextComponent.addExtra(ChatColor.translateAlternateColorCodes('&', sendText));
+                }
+            }
+            textComponents.add(eachTextComponent);
+        }
+        return textComponents;
     }
 
 }

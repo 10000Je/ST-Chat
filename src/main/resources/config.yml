@@ -79,6 +79,18 @@ MegaPhoneAdvancedColor: WHITE
 MegaPhoneNormalCoolTime: 180
 MegaPhoneAdvancedCoolTime: 300
 
+# 공지사항 커스터마이징.
+BroadcastCommandHelp: '&c[&aG&d] &f｜ /공지 [내용] - 공지사항을 전송합니다.'
+# 사용가능한 변수 [MESSAGE] [PLAYER]
+BroadcastMessage:
+  - ''
+  - '&6&l공지사항 &3* &f[MESSAGE] &7｜ &oby. [PLAYER]'
+  - ''
+BroadcastRepeatingPeriod: 1800
+BroadcastRepeatingMessage:
+  - '안녕하세요\n반갑습니다.'
+  - '저는\n인간입니다.'
+
 # 색깔채팅 & 색깔닉네임, 아래는 사용가능 색깔
 # BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE,
 # GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE

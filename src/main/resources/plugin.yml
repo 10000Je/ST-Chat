@@ -38,3 +38,6 @@ commands:
   고급확성기:
     aliases: [amp]
     description: Broadcast Advanced Megaphone Message to Server Players
+  공지:
+    permission: st.broadcast.admin
+    description: Broadcast Announcement to all players

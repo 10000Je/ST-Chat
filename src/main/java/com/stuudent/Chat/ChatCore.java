@@ -6,6 +6,7 @@ import com.stuudent.Chat.commands.*;
 import com.stuudent.Chat.data.AllData;
 import com.stuudent.Chat.listeners.ChatListener;
 import com.stuudent.Chat.listeners.ChatToDiscord;
+import com.stuudent.Chat.schedulers.BroadcastScheduler;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -17,8 +18,8 @@ public final class ChatCore extends JavaPlugin {
 
     public static ChatCore instance;
     public static FileConfiguration cf;
-    public static Essentials ess;
-    public static CMI cmi;
+    public static boolean ess;
+    public static boolean cmi;
     private static Chat chat;
     private static Economy econ;
 
@@ -30,8 +31,8 @@ public final class ChatCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        ess = getServer().getPluginManager().isPluginEnabled("Essentials") ? Essentials.getPlugin(Essentials.class) : null;
-        cmi = getServer().getPluginManager().isPluginEnabled("CMI") ? CMI.getInstance() : null;
+        ess = getServer().getPluginManager().getPlugin("Essentials") != null;
+        cmi = getServer().getPluginManager().getPlugin("CMI") != null;
         if(!setupChat() || !setupEconomy()) {
             Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §cVAULT 플러그인이 존재하지 않습니다.");
             getServer().getPluginManager().disablePlugin(instance);
@@ -40,6 +41,7 @@ public final class ChatCore extends JavaPlugin {
         saveDefaultConfig();
         cf = getConfig();
         registerListeners();
+        registerSchedulers();
         setCommandExecutors();
         setCommandTabCompleter();
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §a플러그인이 활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
@@ -49,6 +51,7 @@ public final class ChatCore extends JavaPlugin {
     public void onDisable() {
         AllData allData = ChatAPI.getData();
         allData.save();
+        unregisterSchedulers();
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §c플러그인이 비활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
     }
 
@@ -92,6 +95,7 @@ public final class ChatCore extends JavaPlugin {
         getCommand("확성기설정").setExecutor(new MegaPhoneCommand());
         getCommand("일반확성기").setExecutor(new MegaPhoneCommand());
         getCommand("고급확성기").setExecutor(new MegaPhoneCommand());
+        getCommand("공지").setExecutor(new BroadcastCommand());
     }
 
     public void setCommandTabCompleter() {
@@ -103,5 +107,15 @@ public final class ChatCore extends JavaPlugin {
         getCommand("확성기설정").setTabCompleter(new MegaPhoneCommand());
         getCommand("일반확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("고급확성기").setTabCompleter(new MegaPhoneCommand());
+        getCommand("공지").setTabCompleter(new BroadcastCommand());
+    }
+
+    public void registerSchedulers() {
+        //noinspection deprecation
+        Bukkit.getScheduler().scheduleAsyncRepeatingTask(instance, new BroadcastScheduler(), 0, cf.getLong("BroadcastRepeatingPeriod")* 20L);
+    }
+
+    public void unregisterSchedulers() {
+        Bukkit.getScheduler().cancelTasks(instance);
     }
 }
