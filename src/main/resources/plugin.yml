@@ -8,6 +8,8 @@ softdepend:
   - 'CMI'
 depend:
   - 'Vault'
+  - 'Kotlin'
+  - 'DiscordWebhook'
 
 commands:
   전체채팅:
