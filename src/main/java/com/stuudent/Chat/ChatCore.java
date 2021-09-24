@@ -1,7 +1,5 @@
 package com.stuudent.Chat;
 
-import com.Zrips.CMI.CMI;
-import com.earth2me.essentials.Essentials;
 import com.stuudent.Chat.commands.*;
 import com.stuudent.Chat.data.AllData;
 import com.stuudent.Chat.listeners.ChatListener;

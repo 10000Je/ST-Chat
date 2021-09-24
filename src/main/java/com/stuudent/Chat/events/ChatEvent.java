@@ -43,7 +43,7 @@ public class ChatEvent extends Event implements Cancellable {
     }
 
     /**
-    * @return if player didn't show any item to chat, it will return null, otherwise it will return ItemStack.
+    * @return if player didn't show any item to chat, it will return null. otherwise, it will return ItemStack.
     */
     public ItemStack getShowItem() {
         return this.showItem;
