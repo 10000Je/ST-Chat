@@ -39,7 +39,7 @@ public class MegaPhoneCommand implements TabExecutor {
                     }
                     ChatAPI.getData().setMegaPhonePrice(MegaPhoneType.NORMAL, price);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNormalPrice").
-                            replace("[PRICE]", String.valueOf(price))));
+                            replace("%megaphone_price%", String.valueOf(price))));
                     return false;
                 } catch(NumberFormatException e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNotPrice")));
@@ -59,7 +59,7 @@ public class MegaPhoneCommand implements TabExecutor {
                     }
                     ChatAPI.getData().setMegaPhonePrice(MegaPhoneType.ADVANCED, price);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetAdvancedPrice").
-                            replace("[PRICE]", String.valueOf(price))));
+                            replace("%megaphone_price%", String.valueOf(price))));
                     return false;
                 } catch (NumberFormatException e) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNotPrice")));
@@ -89,8 +89,8 @@ public class MegaPhoneCommand implements TabExecutor {
             Player player = (Player) sender;
             if(args.length == 0) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneNormalHelpMessage").
-                        replace("[PRICE]", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL))).
-                        replace("[COOLTIME]", String.valueOf(ChatCore.cf.getInt("MegaPhoneNormalCoolTime")))));
+                        replace("%megaphone_price%", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL))).
+                        replace("%megaphone_cool%", String.valueOf(ChatCore.cf.getInt("MegaPhoneNormalCoolTime")))));
             }
             else {
                 if(!ChatAPI.getData().isMegaPhoneEnabled()) {
@@ -103,7 +103,7 @@ public class MegaPhoneCommand implements TabExecutor {
                 }
                 if(ChatAPI.getPlayer(player).isMegaPhoneCool(MegaPhoneType.NORMAL)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneNormalCoolMessage").
-                            replace("[COOLTIME]", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.NORMAL)))));
+                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.NORMAL)))));
                     return false;
                 }
                 ChatCore.getEconomy().withdrawPlayer(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL));
@@ -129,8 +129,8 @@ public class MegaPhoneCommand implements TabExecutor {
             Player player = (Player) sender;
             if(args.length == 0) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneAdvancedHelpMessage").
-                        replace("[PRICE]", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED))).
-                        replace("[COOLTIME]", String.valueOf(ChatCore.cf.getInt("MegaPhoneAdvancedCoolTime")))));
+                        replace("%megaphone_price%", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED))).
+                        replace("%megaphone_cool%", String.valueOf(ChatCore.cf.getInt("MegaPhoneAdvancedCoolTime")))));
             }
             else {
                 if(!ChatAPI.getData().isMegaPhoneEnabled()) {
@@ -143,7 +143,7 @@ public class MegaPhoneCommand implements TabExecutor {
                 }
                 if(ChatAPI.getPlayer(player).isMegaPhoneCool(MegaPhoneType.ADVANCED)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneAdvancedCoolMessage").
-                            replace("[COOLTIME]", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.ADVANCED)))));
+                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.ADVANCED)))));
                     return false;
                 }
                 ChatCore.getEconomy().withdrawPlayer(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED));

@@ -32,7 +32,7 @@ public class ChatListener implements Listener {
             if(e.getMessage().contains(ChatCore.cf.getString("ItemShowText"))) {
                 if(chatPlayerData.isCoolTime()) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("ItemShowCoolTimeMsg").
-                            replace("[LEFTTIME]",String.valueOf(chatPlayerData.getLeftTime()))));
+                            replace("%item_cool%",String.valueOf(chatPlayerData.getLeftTime()))));
                     return;
                 }
                 ItemStack showItem = player.getInventory().getItemInMainHand();
@@ -50,6 +50,7 @@ public class ChatListener implements Listener {
                 ChatEvent event = new ChatEvent(player, e.getMessage(), ChannelType.GLOBAL);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()) {
+                    e.setCancelled(false);
                     return;
                 }
                 for(Player gp : globalChatData.getPlayers())
@@ -64,7 +65,7 @@ public class ChatListener implements Listener {
             if(e.getMessage().contains(ChatCore.cf.getString("ItemShowText"))) {
                 if(chatPlayerData.isCoolTime()) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("ItemShowCoolTimeMsg").
-                            replace("[LEFTTIME]",String.valueOf(chatPlayerData.getLeftTime()))));
+                            replace("%item_cool%",String.valueOf(chatPlayerData.getLeftTime()))));
                     return;
                 }
                 ItemStack showItem = player.getInventory().getItemInMainHand();
@@ -72,6 +73,7 @@ public class ChatListener implements Listener {
                 ChatEvent event = new ChatEvent(player, e.getMessage(), showItem, ChannelType.REGION);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()) {
+                    e.setCancelled(false);
                     return;
                 }
                 for(Player rp : regionChatData.getPlayers())
@@ -82,6 +84,7 @@ public class ChatListener implements Listener {
                 ChatEvent event = new ChatEvent(player, e.getMessage(), ChannelType.REGION);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()) {
+                    e.setCancelled(false);
                     return;
                 }
                 for(Player rp : regionChatData.getPlayers())

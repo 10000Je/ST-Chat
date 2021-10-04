@@ -1,56 +1,60 @@
-# 자유로운 색깔채팅 사용가능
+# ST-Chat 콘피그 설정. 사용가능한 변수 잘 읽어볼 것.
 AdminPermission: 'st.chatcolor.admin'
 
-# 아이템 표시 텍스트
 ItemShowText: '[i]'
 
-# 아이템 표시 포맷.
-# 사용가능한 변수 [ITEMNAME] [AMOUNT]
-ItemShowChat: '&e(&6 [ITEMNAME]&c x[AMOUNT] &e)&f'
+# 사용가능한 변수 %item_name% + %item_amount%
+ItemShowChat: '&e(&6 %item_name%&c x%item_amount% &e)&f'
+# ========================================
 
-# 플레이어 손 표시 포맷.
-# 사용가능한 변수 [PLAYER]
-HandShowChat: '&e( &f[PLAYER] &6님의 손! &e)'
+# 사용가능한 변수 Placeholder
+HandShowChat: '&e( &f%player_displayname% &6님의 손! &e)'
 HandShowLore:
-  - '&f[PLAYER] &6님의 소중한 손입니다!'
+  - '&f%player_displayname% &6님의 소중한 손입니다!'
+# ========================
 
-# 쿨타임은 (초)기준
 ItemShowCoolTime: 60
-# 사용가능한 변수 [LEFTTIME]
-ItemShowCoolTimeMsg: '&c[&aG&d] &f｜ &6[LEFTTIME]&a초 후에 사용할 수 있습니다.'
 
-# 디스코드 웹훅 관리.
+# 사용가능한 변수 %item_cool%
+ItemShowCoolTimeMsg: '&c[&aG&d] &f｜ &6%item_cool%&a초 후에 사용할 수 있습니다.'
+# ========================
+
 DiscordWebhookUrl: 'Input Your Webhook URL'
-# 사용가능한 변수 [CURRENTTIME] [CHANNEL] [MESSAGE] \n
-DiscordFormat: '([CURRENTTIME]) \n[CHANNEL] ｜ [MESSAGE]'
 
-# 전체채팅 커스터마이징.
+# 사용가능한 변수 Placeholder + %current_time% + %current_channel% + %chat_message%
+DiscordFormat: '(%current_time%) \n%current_channel% ｜ %chat_message%'
+# =================================================================
+
+# 전체채팅 활성화 메시지
 GlobalEnable: '&c[&aG&d] &f｜ &a전체채팅이 활성화 되었습니다.'
-# 사용가능한 변수 [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
-GlobalChatFormat: ' [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
 
-# 지역채팅 커스터마이징.
+# 사용가능한 변수 PlaceHolder + %chat_message%
+GlobalChatFormat: ' %luckperms_prefix% &f: %player_displayname% &f: %chat_message%'
+# =========================================
+
+# 지역채팅 활성화 메시지
 RegionEnable: '&c[&aG&d] &f｜ &a지역채팅이 활성화 되었습니다.'
-# 사용가능한 변수 [PLAYERNUM] [PLAYERGROUP] [PLAYERNAME] [MESSAGE]
-RegionChatFormat: ' &7[지역&f([PLAYERNUM]&6명&f)&7] &f: [PLAYERGROUP] &f: [PLAYERNAME] &f: [MESSAGE]'
-PlayerNumberColor: 'GOLD'
+
+# 사용가능한 변수 PlaceHolder + %chat_message% + %region_number%
+RegionChatFormat: ' &7[지역&f(%region_number%&6명&f)&7] &f: %luckperms_prefix% &f: %player_displayname% &f: %chat_message%'
+# ===========================================================
+
 RegionChatDistance: 300
 
-# 한글채팅 커스터마이징.
 KoreanEnable: '&c[&aG&d] &f｜ &a한글채팅이 활성화 되었습니다.'
 KoreanDisable: '&c[&aG&d] &f｜ &c한글채팅이 비활성화 되었습니다.'
 
-# 채팅청소 커스터마이징.
 CCTimeFormat: 'yyyy년 MM월 dd일 HH시 mm분 ss초'
-# 사용가능한 변수 [PLAYER] [TIME]
+
+# 사용가능한 변수 PlaceHolder + %current_time%
 CCMessage:
-  - '&c[&aG&d] &f｜ &a[PLAYER] &f님이 채팅 청소를 하셨습니다.'
-  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6[TIME]'
+  - '&c[&aG&d] &f｜ &a%player_displayname% &f님이 채팅 청소를 하셨습니다.'
+  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6%current_time%'
 PCCMessage:
   - '&c[&aG&d] &f｜ &a개인채팅청소를 완료 하였습니다.'
-  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6[TIME]'
+  - '&c[&aG&d] &f｜ &e현재 시각 &f: &6%current_time%'
+# ==========================================
 
-# 확성기설정 커스터마이징.
 MegaPhoneSetHelpMessage:
   - '&c[&aG&d] &f｜ /확성기설정 일반가격 [가격] &7- &f일반확성기 가격을 설정합니다.'
   - '&c[&aG&d] &f｜ /확성기설정 고급가격 [가격] &7- &f고급확성기 가격을 설정합니다.'
@@ -61,38 +65,57 @@ MegaPhoneSetDisabled: '&c[&aG&d] &f｜ 이제부터 확성기 사용이 &c금지
 MegaPhoneDisabledMessage: '&c[&aG&d] &f｜ 현재 확성기 사용이 &c금지&f 상태입니다. 관리자에게 문의해주세요!'
 MegaPhoneSetWritePrice: '&c[&aG&d] &f｜ 설정할 가격을 입력하세요.'
 MegaPhoneSetNotPrice: '&c[&aG&d] &f｜ 가격 칸에는 0이상의 숫자만 입력할 수 있습니다.'
-# 사용가능한 변수 [TYPE] [PRICE]
-MegaPhoneSetNormalPrice: '&c[&aG&d] &f｜ 일반확성기의 가격을 [PRICE]원 으로 설정하였습니다.'
-MegaPhoneSetAdvancedPrice: '&c[&aG&d] &f｜ 고급확성기의 가격을 [PRICE]원 으로 설정하였습니다.'
 
-# 확성기 커스터마이징.
-# 사용가능한 변수 [PRICE] [COOLTIME]
-MegaPhoneNormalHelpMessage: '&c[&aG&d] &f｜ /일반확성기 [내용] &7- &f비용 : &a[PRICE]&f원 재사용시간 - [COOLTIME]초'
-MegaPhoneAdvancedHelpMessage: '&c[&aG&d] &f｜ /고급확성기 [내용] &7- &f비용 : &a[PRICE]&f원 재사용시간 - [COOLTIME]초'
-MegaPhoneNormalCoolMessage: '&c[&aG&d] &f｜ &6[COOLTIME]&f초 후에 다시 &a/일반확성기 &f명령어를 사용할 수 있습니다.'
-MegaPhoneAdvancedCoolMessage: '&c[&aG&d] &f｜ &6[COOLTIME]&f초 후에 다시 &c/고급확성기 &f명령어를 사용할 수 있습니다.'
+# 사용가능한 변수 %megaphone_price%
+MegaPhoneSetNormalPrice: '&c[&aG&d] &f｜ 일반확성기의 가격을 %megaphone_price%원 으로 설정하였습니다.'
+MegaPhoneSetAdvancedPrice: '&c[&aG&d] &f｜ 고급확성기의 가격을 %megaphone_price%원 으로 설정하였습니다.'
+# ==============================
+
+# 사용가능한 변수 %megaphone_price% + %megaphone_cool%
+MegaPhoneNormalHelpMessage: '&c[&aG&d] &f｜ /일반확성기 [내용] &7- &f비용 : &a%megaphone_price%&f원 재사용시간 - %megaphone_cool%초'
+MegaPhoneAdvancedHelpMessage: '&c[&aG&d] &f｜ /고급확성기 [내용] &7- &f비용 : &a%megaphone_price%&f원 재사용시간 - %megaphone_cool%초'
+# =================================================
+
+# 사용가능한 변수 %megaphone_cool%
+MegaPhoneNormalCoolMessage: '&c[&aG&d] &f｜ &6%megaphone_cool%&f초 후에 다시 &a/일반확성기 &f명령어를 사용할 수 있습니다.'
+MegaPhoneAdvancedCoolMessage: '&c[&aG&d] &f｜ &6%megaphone_cool%&f초 후에 다시 &c/고급확성기 &f명령어를 사용할 수 있습니다.'
+# =============================
+
 MegaPhoneLackMoney: '&c[&aG&d] &f｜ 명령어를 사용하기 위한 돈이 부족합니다.'
-MegaPhoneNormalSend: '&a일반확성기 &e[PLAYER] &7>> [MESSAGE]'
-MegaPhoneAdvancedSend: '&c고급확성기 &e[PLAYER] &7>> [MESSAGE]'
-MegaPhoneNormalColor: WHITE
-MegaPhoneAdvancedColor: WHITE
+
+# 사용가능한 변수 Placeholder + %megaphone_message%
+MegaPhoneNormalSend: '&a일반확성기 &e%player_displayname% &7>> %megaphone_message%'
+MegaPhoneAdvancedSend: '&c고급확성기 &e%player_displayname% &7>> %megaphone_message%'
+# ===============================================
+
 MegaPhoneNormalCoolTime: 180
 MegaPhoneAdvancedCoolTime: 300
 
-# 공지사항 커스터마이징.
 BroadcastCommandHelp: '&c[&aG&d] &f｜ /공지 [내용] - 공지사항을 전송합니다.'
-# 사용가능한 변수 [MESSAGE] [PLAYER]
+
+# 사용가능한 변수 Placeholder + %broadcast_message%
 BroadcastMessage:
   - ''
-  - '&6&l공지사항 &3* &f[MESSAGE] &7｜ &oby. [PLAYER]'
+  - '&6&l공지사항 &3* &f%broadcast_message% &7｜ &oby. %player_displayname%'
   - ''
+# ===============================================
+
 BroadcastRepeatingPeriod: 1800
+
+# 사용가능한 변수 Placeholder
 BroadcastRepeatingMessage:
   - '안녕하세요\n반갑습니다.'
   - '저는\n인간입니다.'
+# =================================================================
 
-# 색깔채팅 & 색깔닉네임, 아래는 사용가능 색깔
+ReloadHelpMessage: '&c[&aG&d] &f｜ &6/stchat reload - 콘피그를 다시 불러옵니다.'
+ReloadComplete: '&c[&aG&d] &f｜ &6리로드가 완료되었습니다.'
+ReloadUnknownCommand: '&c[&aG&d] &f｜ &f존재하지 않는 명령어입니다. &6/stchat reload'
+
 # BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE,
 # GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
 DefaultChatColor: 'WHITE'
 DefaultNickColor: 'WHITE'
+MegaPhoneNormalColor: WHITE
+MegaPhoneAdvancedColor: WHITE
+PlayerNumberColor: 'GOLD'

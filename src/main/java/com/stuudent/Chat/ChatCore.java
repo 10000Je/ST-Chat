@@ -18,6 +18,8 @@ public final class ChatCore extends JavaPlugin {
     public static FileConfiguration cf;
     public static boolean ess;
     public static boolean cmi;
+    public static boolean pcl;
+    public static boolean dcw;
     private static Chat chat;
     private static Economy econ;
 
@@ -29,13 +31,11 @@ public final class ChatCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        ess = getServer().getPluginManager().getPlugin("Essentials") != null;
-        cmi = getServer().getPluginManager().getPlugin("CMI") != null;
-        if(!setupChat() || !setupEconomy()) {
-            Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §cVAULT 플러그인이 존재하지 않습니다.");
-            getServer().getPluginManager().disablePlugin(instance);
+        if(!dependCheck())
             return;
-        }
+        setupChat();
+        setupEconomy();
+        softDependCheck();
         saveDefaultConfig();
         cf = getConfig();
         registerListeners();
@@ -53,30 +53,48 @@ public final class ChatCore extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §c플러그인이 비활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
     }
 
-    private boolean setupChat() {
+    private void setupChat() {
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
-        return chat != null;
-    }
-
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
     }
 
     public static Chat getChat() {
         return chat;
     }
 
+    private void setupEconomy() {
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        econ = rsp.getProvider();
+    }
+
     public static Economy getEconomy() {
         return econ;
+    }
+
+    public boolean dependCheck() {
+        if(getServer().getPluginManager().getPlugin("Vault") == null) {
+            Bukkit.getPluginManager().disablePlugin(instance);
+            Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §fVault §c플러그인이 존재하지 않습니다.");
+            return false;
+        }
+        if(getServer().getPluginManager().getPlugin("Kotlin") == null) {
+            Bukkit.getPluginManager().disablePlugin(instance);
+            Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §fKotlin §c플러그인이 존재하지 않습니다.");
+            return false;
+        }
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            Bukkit.getPluginManager().disablePlugin(instance);
+            Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §fPlaceholderAPI §c플러그인이 존재하지 않습니다.");
+            return false;
+        }
+        return true;
+    }
+
+    public void softDependCheck() {
+        ess = getServer().getPluginManager().getPlugin("Essentials") != null;
+        cmi = getServer().getPluginManager().getPlugin("CMI") != null;
+        pcl = getServer().getPluginManager().getPlugin("ProtocolLib") != null;
+        dcw = getServer().getPluginManager().getPlugin("DiscordWebhook") != null;
     }
 
     public void registerListeners() {
@@ -94,6 +112,7 @@ public final class ChatCore extends JavaPlugin {
         getCommand("일반확성기").setExecutor(new MegaPhoneCommand());
         getCommand("고급확성기").setExecutor(new MegaPhoneCommand());
         getCommand("공지").setExecutor(new BroadcastCommand());
+        getCommand("stchat").setExecutor(new ReloadCommand());
     }
 
     public void setCommandTabCompleter() {
@@ -106,11 +125,11 @@ public final class ChatCore extends JavaPlugin {
         getCommand("일반확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("고급확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("공지").setTabCompleter(new BroadcastCommand());
+        getCommand("stchat").setTabCompleter(new ReloadCommand());
     }
 
     public void registerSchedulers() {
-        //noinspection deprecation
-        Bukkit.getScheduler().scheduleAsyncRepeatingTask(instance, new BroadcastScheduler(), 0, cf.getLong("BroadcastRepeatingPeriod")* 20L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new BroadcastScheduler(), 0, cf.getLong("BroadcastRepeatingPeriod")* 20L);
     }
 
     public void unregisterSchedulers() {

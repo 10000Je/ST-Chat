@@ -6,10 +6,12 @@ description: Custom Chat Management Plugin Created by STuuDENT
 softdepend:
   - 'Essentials'
   - 'CMI'
+  - 'ProtocolLib'
+  - 'DiscordWebhook'
 depend:
   - 'Vault'
   - 'Kotlin'
-  - 'DiscordWebhook'
+  - 'PlaceholderAPI'
 
 commands:
   전체채팅:
@@ -41,3 +43,6 @@ commands:
   공지:
     permission: st.broadcast.admin
     description: Broadcast Announcement to all players
+  stchat:
+    permission: st.chat.admin
+    description: Reload Config

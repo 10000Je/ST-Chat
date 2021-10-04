@@ -9,6 +9,7 @@ import com.stuudent.Chat.data.ChatItemData;
 import com.stuudent.Chat.data.ChatPlayerData;
 import com.stuudent.Chat.enums.ChannelType;
 import com.stuudent.Chat.events.ChatEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,14 +25,16 @@ public class ChatToDiscord implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(ChatEvent e) {
-        String chatMessage = getFormat(e.getPlayer(), e.getMessage(), e.getShowItem(), e.getChannel());
-        WebhookClient client = WebhookClient.withUrl(ChatCore.cf.getString("DiscordWebhookUrl"));
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername(e.getPlayer().getName());
-        builder.setAvatarUrl("https://mc-heads.net/avatar/" + e.getPlayer().getName());
-        builder.setContent(chatMessage);
-        client.send(builder.build());
-        client.close();
+        if(ChatCore.dcw) {
+            String chatMessage = getFormat(e.getPlayer(), e.getMessage(), e.getShowItem(), e.getChannel());
+            WebhookClient client = WebhookClient.withUrl(ChatCore.cf.getString("DiscordWebhookUrl"));
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            builder.setUsername(e.getPlayer().getName());
+            builder.setAvatarUrl("https://mc-heads.net/avatar/" + e.getPlayer().getName());
+            builder.setContent(chatMessage);
+            client.send(builder.build());
+            client.close();
+        }
     }
 
     public String getFormat(Player chatPlayer, String message, ItemStack showedItem, ChannelType channelType) {
@@ -42,7 +45,7 @@ public class ChatToDiscord implements Listener {
         ChatPlayerData chatPlayerData = ChatAPI.getPlayer(chatPlayer);
         Inko inko = new Inko();
         String ItemShowText = ChatCore.cf.getString("ItemShowText", "[i]");
-        String[] spLitMessage = message.replace(ItemShowText, "[SPLIT]" + ItemShowText + "[SPLIT]").split("\\[SPLIT\\]");
+        String[] spLitMessage = message.replace(ItemShowText, "%split%" + ItemShowText + "%split%").split("%split%");
         String reMessage = "";
         for(String spLitM : spLitMessage) {
             if(spLitM.equals(ItemShowText)) {
@@ -51,8 +54,8 @@ public class ChatToDiscord implements Listener {
                 reMessage = chatPlayerData.isKorean() ? reMessage + inko.en2ko(ChatColor.stripColor(spLitM), true) : reMessage + ChatColor.stripColor(spLitM);
             }
         }
-        return ChatCore.cf.getString("DiscordFormat")
-                .replace("[CURRENTTIME]", currentTime).replace("[CHANNEL]", channelType.name()).replace("[MESSAGE]", reMessage).replace("\\n", "\n");
+        return PlaceholderAPI.setPlaceholders(chatPlayer, ChatCore.cf.getString("DiscordFormat").replace("%current_time%", currentTime)
+                .replace("%current_channel%", channelType.name()).replace("%chat_message%", reMessage).replace("\\n", "\n"));
     }
 
 }

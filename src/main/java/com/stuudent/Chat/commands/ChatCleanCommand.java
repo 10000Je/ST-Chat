@@ -1,6 +1,7 @@
 package com.stuudent.Chat.commands;
 
 import com.stuudent.Chat.ChatCore;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,8 +28,13 @@ public class ChatCleanCommand implements TabExecutor {
                         player.sendMessage("");
                 }
                 for(String message : ChatCore.cf.getStringList("CCMessage"))
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message.
-                            replace("[PLAYER]", sender.getName()).replace("[TIME]", date_format)));
+                    if(sender instanceof Player) {
+                        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                                PlaceholderAPI.setPlaceholders((Player) sender, message.replace("%current_time%", date_format))));
+                    } else {
+                        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                                PlaceholderAPI.setPlaceholders(null, message.replace("%current_time%", date_format))));
+                    }
             });
         }
         if(cmd.getName().equals("개인채팅청소")) {
@@ -45,8 +51,8 @@ public class ChatCleanCommand implements TabExecutor {
                     player.sendMessage("");
                 }
                 for(String message : ChatCore.cf.getStringList("PCCMessage"))
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.
-                            replace("[PLAYER]", sender.getName()).replace("[TIME]", date_format)));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            PlaceholderAPI.setPlaceholders(player, message.replace("%current_time%", date_format))));
             });
         }
         return false;
