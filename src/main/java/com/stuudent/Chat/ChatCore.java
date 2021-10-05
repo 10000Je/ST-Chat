@@ -1,7 +1,9 @@
 package com.stuudent.Chat;
 
 import com.stuudent.Chat.commands.*;
-import com.stuudent.Chat.data.AllData;
+import com.stuudent.Chat.data.MegaPhoneData;
+import com.stuudent.Chat.data.Placeholders;
+import com.stuudent.Chat.data.PlayerData;
 import com.stuudent.Chat.listeners.ChatListener;
 import com.stuudent.Chat.listeners.ChatToDiscord;
 import com.stuudent.Chat.schedulers.BroadcastScheduler;
@@ -42,13 +44,14 @@ public final class ChatCore extends JavaPlugin {
         registerSchedulers();
         setCommandExecutors();
         setCommandTabCompleter();
+        new Placeholders().register();
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §a플러그인이 활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
     }
 
     @Override
     public void onDisable() {
-        AllData allData = ChatAPI.getData();
-        allData.save();
+        PlayerData.save();
+        MegaPhoneData.save();
         unregisterSchedulers();
         Bukkit.getConsoleSender().sendMessage("§6ST§f-§aChat §ev" + getDescription().getVersion() + " §c플러그인이 비활성화 되었습니다. §f(created by STuuDENT, Discord 민제#5894)");
     }
@@ -112,7 +115,7 @@ public final class ChatCore extends JavaPlugin {
         getCommand("일반확성기").setExecutor(new MegaPhoneCommand());
         getCommand("고급확성기").setExecutor(new MegaPhoneCommand());
         getCommand("공지").setExecutor(new BroadcastCommand());
-        getCommand("stchat").setExecutor(new ReloadCommand());
+        getCommand("채팅관리").setExecutor(new ReloadCommand());
     }
 
     public void setCommandTabCompleter() {
@@ -125,7 +128,7 @@ public final class ChatCore extends JavaPlugin {
         getCommand("일반확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("고급확성기").setTabCompleter(new MegaPhoneCommand());
         getCommand("공지").setTabCompleter(new BroadcastCommand());
-        getCommand("stchat").setTabCompleter(new ReloadCommand());
+        getCommand("채팅관리").setTabCompleter(new ReloadCommand());
     }
 
     public void registerSchedulers() {

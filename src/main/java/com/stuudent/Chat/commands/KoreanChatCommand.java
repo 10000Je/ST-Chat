@@ -2,7 +2,7 @@ package com.stuudent.Chat.commands;
 
 import com.stuudent.Chat.ChatAPI;
 import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.data.ChatPlayerData;
+import com.stuudent.Chat.interfaces.ChatPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,12 +20,12 @@ public class KoreanChatCommand implements TabExecutor {
         if(!(sender instanceof Player))
             return false;
         Player player = (Player) sender;
-        ChatPlayerData chatPlayerData = ChatAPI.getPlayer(player);
-        if(chatPlayerData.isKorean()) {
-            chatPlayerData.setKorean(false);
+        ChatPlayer chatPlayer = ChatAPI.getPlayer(player);
+        if(chatPlayer.isKoreanChatEnabled()) {
+            chatPlayer.setKoreanChatState(false);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("KoreanDisable")));
         } else {
-            chatPlayerData.setKorean(true);
+            chatPlayer.setKoreanChatState(true);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("KoreanEnable")));
         }
         return false;

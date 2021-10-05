@@ -2,6 +2,7 @@ package com.stuudent.Chat.commands;
 
 import com.stuudent.Chat.ChatAPI;
 import com.stuudent.Chat.ChatCore;
+import com.stuudent.Chat.data.MegaPhoneData;
 import com.stuudent.Chat.enums.MegaPhoneType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -37,7 +38,7 @@ public class MegaPhoneCommand implements TabExecutor {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNotPrice")));
                         return false;
                     }
-                    ChatAPI.getData().setMegaPhonePrice(MegaPhoneType.NORMAL, price);
+                    MegaPhoneData.setMegaPhonePrice(MegaPhoneType.NORMAL, price);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNormalPrice").
                             replace("%megaphone_price%", String.valueOf(price))));
                     return false;
@@ -57,7 +58,7 @@ public class MegaPhoneCommand implements TabExecutor {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetNotPrice")));
                         return false;
                     }
-                    ChatAPI.getData().setMegaPhonePrice(MegaPhoneType.ADVANCED, price);
+                    MegaPhoneData.setMegaPhonePrice(MegaPhoneType.ADVANCED, price);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetAdvancedPrice").
                             replace("%megaphone_price%", String.valueOf(price))));
                     return false;
@@ -67,12 +68,12 @@ public class MegaPhoneCommand implements TabExecutor {
                 }
             }
             else if(args[0].equals("금지")) {
-                ChatAPI.getData().setMegaPhoneDisable();
+                MegaPhoneData.setMegaPhoneDisable();
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetDisabled")));
                 return false;
             }
             else if(args[0].equals("허용")) {
-                ChatAPI.getData().setMegaPhoneEnable();
+                MegaPhoneData.setMegaPhoneEnable();
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneSetEnabled")));
                 return false;
             }
@@ -89,31 +90,31 @@ public class MegaPhoneCommand implements TabExecutor {
             Player player = (Player) sender;
             if(args.length == 0) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneNormalHelpMessage").
-                        replace("%megaphone_price%", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL))).
+                        replace("%megaphone_price%", String.valueOf(MegaPhoneData.getMegaPhonePrice(MegaPhoneType.NORMAL))).
                         replace("%megaphone_cool%", String.valueOf(ChatCore.cf.getInt("MegaPhoneNormalCoolTime")))));
             }
             else {
-                if(!ChatAPI.getData().isMegaPhoneEnabled()) {
+                if(!MegaPhoneData.isMegaPhoneEnabled()) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneDisabledMessage")));
                     return false;
                 }
-                if(!ChatCore.getEconomy().has(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL))) {
+                if(!ChatCore.getEconomy().has(player, MegaPhoneData.getMegaPhonePrice(MegaPhoneType.NORMAL))) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneLackMoney")));
                     return false;
                 }
                 if(ChatAPI.getPlayer(player).isMegaPhoneCool(MegaPhoneType.NORMAL)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneNormalCoolMessage").
-                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.NORMAL)))));
+                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCool(MegaPhoneType.NORMAL)))));
                     return false;
                 }
-                ChatCore.getEconomy().withdrawPlayer(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.NORMAL));
-                ChatAPI.getPlayer(player).setMegaPhoneCool(MegaPhoneType.NORMAL);
+                ChatCore.getEconomy().withdrawPlayer(player, MegaPhoneData.getMegaPhonePrice(MegaPhoneType.NORMAL));
+                ChatAPI.getPlayer(player).resetMegaPhoneCool(MegaPhoneType.NORMAL);
                 StringBuilder stringBuilder = new StringBuilder();
                 for(String message : args) {
                     stringBuilder.append(message).append(" ");
                 }
                 for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    TextComponent message = ChatAPI.getPlayer(player).getMegaPhoneMessage(MegaPhoneType.NORMAL, stringBuilder.toString());
+                    TextComponent message = ChatAPI.getPlayer(player).getMegaPhoneFormat(MegaPhoneType.NORMAL, stringBuilder.toString());
                     if(ChatAPI.getPlayer(onlinePlayer).isIgnored(player))
                         continue;
                     onlinePlayer.sendMessage(message);
@@ -129,31 +130,31 @@ public class MegaPhoneCommand implements TabExecutor {
             Player player = (Player) sender;
             if(args.length == 0) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneAdvancedHelpMessage").
-                        replace("%megaphone_price%", String.valueOf(ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED))).
+                        replace("%megaphone_price%", String.valueOf(MegaPhoneData.getMegaPhonePrice(MegaPhoneType.ADVANCED))).
                         replace("%megaphone_cool%", String.valueOf(ChatCore.cf.getInt("MegaPhoneAdvancedCoolTime")))));
             }
             else {
-                if(!ChatAPI.getData().isMegaPhoneEnabled()) {
+                if(!MegaPhoneData.isMegaPhoneEnabled()) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneDisabledMessage")));
                     return false;
                 }
-                if(!ChatCore.getEconomy().has(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED))) {
+                if(!ChatCore.getEconomy().has(player, MegaPhoneData.getMegaPhonePrice(MegaPhoneType.ADVANCED))) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneLackMoney")));
                     return false;
                 }
                 if(ChatAPI.getPlayer(player).isMegaPhoneCool(MegaPhoneType.ADVANCED)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("MegaPhoneAdvancedCoolMessage").
-                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCoolTime(MegaPhoneType.ADVANCED)))));
+                            replace("%megaphone_cool%", String.valueOf(ChatAPI.getPlayer(player).getMegaPhoneCool(MegaPhoneType.ADVANCED)))));
                     return false;
                 }
-                ChatCore.getEconomy().withdrawPlayer(player, ChatAPI.getData().getMegaPhonePrice(MegaPhoneType.ADVANCED));
-                ChatAPI.getPlayer(player).setMegaPhoneCool(MegaPhoneType.ADVANCED);
+                ChatCore.getEconomy().withdrawPlayer(player, MegaPhoneData.getMegaPhonePrice(MegaPhoneType.ADVANCED));
+                ChatAPI.getPlayer(player).resetMegaPhoneCool(MegaPhoneType.ADVANCED);
                 StringBuilder stringBuilder = new StringBuilder();
                 for(String message : args) {
                     stringBuilder.append(message).append(" ");
                 }
                 for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    TextComponent message = ChatAPI.getPlayer(player).getMegaPhoneMessage(MegaPhoneType.ADVANCED, stringBuilder.toString());
+                    TextComponent message = ChatAPI.getPlayer(player).getMegaPhoneFormat(MegaPhoneType.ADVANCED, stringBuilder.toString());
                     if(ChatAPI.getPlayer(onlinePlayer).isIgnored(player))
                         continue;
                     onlinePlayer.sendMessage(message);
@@ -172,7 +173,7 @@ public class MegaPhoneCommand implements TabExecutor {
         if(cmd.getName().equals("확성기설정")) {
             ArrayList<String> available = new ArrayList<>();
             if(args.length == 1) {
-                List<String> args0 = Arrays.asList("일반가격", "고급가격");
+                List<String> args0 = Arrays.asList("일반가격", "고급가격", "허용", "금지");
                 for(String arg : args0) {
                     if(arg.toLowerCase().startsWith(args[0].toLowerCase())) {
                         available.add(arg);

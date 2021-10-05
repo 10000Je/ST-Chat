@@ -35,8 +35,8 @@ GlobalChatFormat: ' %luckperms_prefix% &f: %player_displayname% &f: %chat_messag
 # 지역채팅 활성화 메시지
 RegionEnable: '&c[&aG&d] &f｜ &a지역채팅이 활성화 되었습니다.'
 
-# 사용가능한 변수 PlaceHolder + %chat_message% + %region_number%
-RegionChatFormat: ' &7[지역&f(%region_number%&6명&f)&7] &f: %luckperms_prefix% &f: %player_displayname% &f: %chat_message%'
+# 사용가능한 변수 PlaceHolder + %chat_message% + %receivers_number%
+RegionChatFormat: ' &7[지역&f(%receivers_number%&6명&f)&7] &f: %luckperms_prefix% &f: %player_displayname% &f: %chat_message%'
 # ===========================================================
 
 RegionChatDistance: 300
@@ -108,14 +108,13 @@ BroadcastRepeatingMessage:
   - '저는\n인간입니다.'
 # =================================================================
 
-ReloadHelpMessage: '&c[&aG&d] &f｜ &6/stchat reload - 콘피그를 다시 불러옵니다.'
+ReloadHelpMessage: '&c[&aG&d] &f｜ &6/채팅관리 리로드 - 콘피그를 다시 불러옵니다.'
 ReloadComplete: '&c[&aG&d] &f｜ &6리로드가 완료되었습니다.'
-ReloadUnknownCommand: '&c[&aG&d] &f｜ &f존재하지 않는 명령어입니다. &6/stchat reload'
+ReloadUnknownCommand: '&c[&aG&d] &f｜ &f존재하지 않는 명령어입니다. &6/채팅관리 리로드'
 
 # BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE,
 # GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
 DefaultChatColor: 'WHITE'
-DefaultNickColor: 'WHITE'
 MegaPhoneNormalColor: WHITE
 MegaPhoneAdvancedColor: WHITE
 PlayerNumberColor: 'GOLD'

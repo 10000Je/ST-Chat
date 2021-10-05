@@ -1,18 +1,14 @@
 package com.stuudent.Chat.events;
 
-import com.stuudent.Chat.enums.ChannelType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 
 public class ChatEvent extends Event implements Cancellable {
 
     public static HandlerList handlers;
     public Player chatPlayer;
-    public ChannelType channelType;
-    public ItemStack showItem;
     public String message;
     public boolean cancelled;
 
@@ -20,33 +16,17 @@ public class ChatEvent extends Event implements Cancellable {
         handlers = new HandlerList();
     }
 
-    public ChatEvent(Player chatPlayer, String message, ChannelType channelType) {
+    public ChatEvent(Player chatPlayer, String message) {
         this.chatPlayer = chatPlayer;
         this.message = message;
-        this.channelType = channelType;
-        this.showItem = null;
     }
 
-    public ChatEvent(Player chatPlayer, String message, ItemStack showItem, ChannelType channelType) {
-        this.chatPlayer = chatPlayer;
+    public void setMessage(String message) {
         this.message = message;
-        this.channelType = channelType;
-        this.showItem = showItem;
     }
 
     public String getMessage() {
         return this.message;
-    }
-
-    public ChannelType getChannel() {
-        return this.channelType;
-    }
-
-    /**
-     * @return if player didn't show any item to chat, it will return null. otherwise, it will return ItemStack.
-     */
-    public ItemStack getShowItem() {
-        return this.showItem;
     }
 
     public Player getPlayer() {

@@ -2,8 +2,8 @@ package com.stuudent.Chat.commands;
 
 import com.stuudent.Chat.ChatAPI;
 import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.data.ChatPlayerData;
 import com.stuudent.Chat.enums.ChannelType;
+import com.stuudent.Chat.interfaces.ChatPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,8 +21,8 @@ public class GlobalChatCommand implements TabExecutor {
         if(!(sender instanceof Player))
             return false;
         Player player = (Player) sender;
-        ChatPlayerData chatPlayerData = ChatAPI.getPlayer(player);
-        chatPlayerData.setChannel(ChannelType.GLOBAL);
+        ChatPlayer chatPlayer = ChatAPI.getPlayer(player);
+        chatPlayer.setChannel(ChannelType.GLOBAL);
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatCore.cf.getString("GlobalEnable")));
         return false;
     }

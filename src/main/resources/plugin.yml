@@ -43,6 +43,7 @@ commands:
   공지:
     permission: st.broadcast.admin
     description: Broadcast Announcement to all players
-  stchat:
+  채팅관리:
+    aliases: [stchat]
     permission: st.chat.admin
-    description: Reload Config
+    description: st-chat command

@@ -2,6 +2,7 @@ package com.stuudent.Chat.commands;
 
 import com.stuudent.Chat.ChatAPI;
 import com.stuudent.Chat.ChatCore;
+import com.stuudent.Chat.interfaces.ChatPlayer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -29,7 +30,8 @@ public class BroadcastCommand implements TabExecutor {
         StringBuilder stringBuilder = new StringBuilder();
         for(String arg : args)
             stringBuilder.append(arg).append(" ");
-        List<TextComponent> broadcastMessages = ChatAPI.getData().getBroadcastMessage(player, stringBuilder.toString());
+        ChatPlayer chatPlayer = ChatAPI.getPlayer(player);
+        List<TextComponent> broadcastMessages = chatPlayer.getBroadcastFormats(stringBuilder.toString());
         for(TextComponent broadcastMessage : broadcastMessages) {
             for(Player onlinePlayer : Bukkit.getOnlinePlayers())
                 onlinePlayer.sendMessage(broadcastMessage);
