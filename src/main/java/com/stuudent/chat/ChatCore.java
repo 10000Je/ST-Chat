@@ -1,12 +1,12 @@
-package com.stuudent.Chat;
+package com.stuudent.chat;
 
-import com.stuudent.Chat.commands.*;
-import com.stuudent.Chat.data.MegaPhoneData;
-import com.stuudent.Chat.data.Placeholders;
-import com.stuudent.Chat.data.PlayerData;
-import com.stuudent.Chat.listeners.ChatListener;
-import com.stuudent.Chat.listeners.ChatToDiscord;
-import com.stuudent.Chat.schedulers.BroadcastScheduler;
+import com.stuudent.chat.commands.*;
+import com.stuudent.chat.data.MegaPhoneData;
+import com.stuudent.chat.data.Placeholders;
+import com.stuudent.chat.data.PlayerData;
+import com.stuudent.chat.listeners.ChatListener;
+import com.stuudent.chat.listeners.ChatToDiscord;
+import com.stuudent.chat.schedulers.BroadcastScheduler;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

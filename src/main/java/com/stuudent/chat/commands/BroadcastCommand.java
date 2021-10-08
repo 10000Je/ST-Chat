@@ -1,8 +1,8 @@
-package com.stuudent.Chat.commands;
+package com.stuudent.chat.commands;
 
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.interfaces.ChatPlayer;
+import com.stuudent.chat.ChatAPI;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.interfaces.ChatPlayer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

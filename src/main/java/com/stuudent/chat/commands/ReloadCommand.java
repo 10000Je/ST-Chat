@@ -1,6 +1,6 @@
-package com.stuudent.Chat.commands;
+package com.stuudent.chat.commands;
 
-import com.stuudent.Chat.ChatCore;
+import com.stuudent.chat.ChatCore;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

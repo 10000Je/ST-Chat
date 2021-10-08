@@ -1,9 +1,9 @@
-package com.stuudent.Chat;
+package com.stuudent.chat;
 
-import com.stuudent.Chat.data.ItemData;
-import com.stuudent.Chat.data.PlayerData;
-import com.stuudent.Chat.interfaces.ChatItem;
-import com.stuudent.Chat.interfaces.ChatPlayer;
+import com.stuudent.chat.data.ItemData;
+import com.stuudent.chat.data.PlayerData;
+import com.stuudent.chat.interfaces.ChatItem;
+import com.stuudent.chat.interfaces.ChatPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

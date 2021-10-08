@@ -1,7 +1,7 @@
-package com.stuudent.Chat.interfaces;
+package com.stuudent.chat.interfaces;
 
-import com.stuudent.Chat.enums.ChannelType;
-import com.stuudent.Chat.enums.MegaPhoneType;
+import com.stuudent.chat.enums.ChannelType;
+import com.stuudent.chat.enums.MegaPhoneType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;

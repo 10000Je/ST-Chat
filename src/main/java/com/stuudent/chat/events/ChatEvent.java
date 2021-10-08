@@ -1,4 +1,4 @@
-package com.stuudent.Chat.events;
+package com.stuudent.chat.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

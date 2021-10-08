@@ -1,11 +1,11 @@
-package com.stuudent.Chat.listeners;
+package com.stuudent.chat.listeners;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.events.ChatEvent;
-import com.stuudent.Chat.interfaces.ChatPlayer;
+import com.stuudent.chat.ChatAPI;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.events.ChatEvent;
+import com.stuudent.chat.interfaces.ChatPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

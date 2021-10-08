@@ -1,7 +1,7 @@
-package com.stuudent.Chat.data;
+package com.stuudent.chat.data;
 
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.enums.MegaPhoneType;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.enums.MegaPhoneType;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

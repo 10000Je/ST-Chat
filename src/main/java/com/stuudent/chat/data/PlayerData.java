@@ -1,14 +1,14 @@
-package com.stuudent.Chat.data;
+package com.stuudent.chat.data;
 
 import com.Zrips.CMI.CMI;
 import com.github.kimcore.inko.Inko;
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.enums.ChannelType;
-import com.stuudent.Chat.enums.MegaPhoneType;
-import com.stuudent.Chat.interfaces.ChatItem;
-import com.stuudent.Chat.interfaces.ChatPlayer;
-import com.stuudent.Chat.utils.EssentialsUtil;
+import com.stuudent.chat.ChatAPI;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.enums.ChannelType;
+import com.stuudent.chat.enums.MegaPhoneType;
+import com.stuudent.chat.interfaces.ChatItem;
+import com.stuudent.chat.interfaces.ChatPlayer;
+import com.stuudent.chat.utils.EssentialsUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

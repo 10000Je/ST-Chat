@@ -1,8 +1,8 @@
-package com.stuudent.Chat.data;
+package com.stuudent.chat.data;
 
 import com.comphenix.protocol.utility.MinecraftReflection;
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.interfaces.ChatItem;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.interfaces.ChatItem;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;

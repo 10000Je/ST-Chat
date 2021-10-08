@@ -1,9 +1,9 @@
-package com.stuudent.Chat.commands;
+package com.stuudent.chat.commands;
 
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.ChatCore;
-import com.stuudent.Chat.data.MegaPhoneData;
-import com.stuudent.Chat.enums.MegaPhoneType;
+import com.stuudent.chat.ChatAPI;
+import com.stuudent.chat.ChatCore;
+import com.stuudent.chat.data.MegaPhoneData;
+import com.stuudent.chat.enums.MegaPhoneType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

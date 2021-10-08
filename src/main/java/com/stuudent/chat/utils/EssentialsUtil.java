@@ -1,4 +1,4 @@
-package com.stuudent.Chat.utils;
+package com.stuudent.chat.utils;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;

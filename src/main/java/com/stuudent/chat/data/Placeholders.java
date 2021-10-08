@@ -1,9 +1,9 @@
-package com.stuudent.Chat.data;
+package com.stuudent.chat.data;
 
-import com.stuudent.Chat.ChatAPI;
-import com.stuudent.Chat.enums.ChannelType;
-import com.stuudent.Chat.enums.MegaPhoneType;
-import com.stuudent.Chat.interfaces.ChatPlayer;
+import com.stuudent.chat.ChatAPI;
+import com.stuudent.chat.enums.ChannelType;
+import com.stuudent.chat.enums.MegaPhoneType;
+import com.stuudent.chat.interfaces.ChatPlayer;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;

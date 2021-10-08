@@ -1,4 +1,4 @@
-package com.stuudent.Chat.interfaces;
+package com.stuudent.chat.interfaces;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
